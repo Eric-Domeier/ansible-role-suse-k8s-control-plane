@@ -1,0 +1,17 @@
+- name: Add kubernetes repo and add its gpg key
+  community.general.zypper_repository:
+    name: kubernetes-repo
+    repo: 'https://pkgs.k8s.io/core:/stable:/{{ k8s_version }}/rpm/'
+    auto_import_keys: true
+
+- name: Install kubectl
+  community.general.zypper:
+    name: kubectl
+    state: latest
+
+- name: Install bash-completion
+  community.general.zypper:
+    name: bash-completion
+    state: latest
+
+
