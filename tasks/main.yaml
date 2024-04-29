@@ -14,4 +14,18 @@
     name: bash-completion
     state: latest
 
+- name: Add kubectl alias and autocomplete scripts to /etc/profile.d/
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/roles/suse-k8s-control-plane/files/kubectl.sh"
+    dest: /etc/profile.d/kubectl.sh
+    mode: 0644
+    
+- name: Run kubectl completion script
+  ansible.builtin.shell:
+    cmd: kubectl completion bash > /etc/bash_completion.d/kubectl
+    creates: /etc/bash_completion.d/kubectl
+    
+- name: Change permissions on kubectl completion script
+  ansible.builtin.command:
+    cmd: sudo chmod a+r /etc/bash_completion.d/kubectl
 
