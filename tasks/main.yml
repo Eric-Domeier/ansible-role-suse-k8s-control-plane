@@ -29,3 +29,17 @@
   ansible.builtin.command:
     cmd: sudo chmod a+r /etc/bash_completion.d/kubectl
 
+- name: Disable swap for current session
+  command: swapoff -a
+  tags:
+    - swap
+
+- name: Disable swap permanently, persist reboots
+  replace:
+    path: /etc/fstab
+    regexp: '^(\s*)([^#\n]+\s+)(\w+\s+)swap(\s+.*)$'
+    replace: '#\1\2\3swap\4'
+    backup: yes
+  tags:
+    - swap
+
